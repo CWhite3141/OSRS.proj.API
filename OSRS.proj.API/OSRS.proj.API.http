@@ -1,0 +1,6 @@
+@OSRS.proj.API_HostAddress = https://localhost:5237
+
+GET {{OSRS.proj.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
