@@ -33,8 +33,16 @@ namespace OSRS.proj.API.Data.Logic
         }
         public async Task <List<ItemsResponse>> GetItems(ItemsRequest request)
         {
+            int currentPage;
+            if (request.Page == null)
+            {
+                currentPage = 1;
+            }
+            else
+            {
+                currentPage = request.Page.Value;
+            }
             string cacheKey = $"Items_{request.Category}_{request.Alpha}_{request.Page}";
-
             if (_memoryCache.TryGetValue(cacheKey, out List<ItemsResponse> cachedItems))
             {
                 return cachedItems;
@@ -43,8 +51,7 @@ namespace OSRS.proj.API.Data.Logic
             HttpClient client = _httpClientFactory.CreateClient("OSRS_GE");
             string baseUrl = _configuration["OSRS_GE:AppSettings:BaseUrl"];
             string endpoint = _configuration["OSRS_GE:OSRS_Endpoints:Items"];
-            List<ItemsResponse> allItems = new List<ItemsResponse>();
-            int currentPage = 1;
+            List<ItemsResponse> allItems = new List<ItemsResponse>(); 
 
             while (true)
             {
