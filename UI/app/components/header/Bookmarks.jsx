@@ -40,9 +40,7 @@ const Bookmarks = () => {
 		}));
 	};
 
-	const handleLink = () => {
-		
-	}
+	const handleLink = () => {};
 
 	return (
 		<div className="absolute top-1/2 -translate-y-1/2 right-10 cursor-pointer z-50">
@@ -69,8 +67,9 @@ const Bookmarks = () => {
 										<li
 											className="bookmarks-item"
 											key={item.id}>
-												<Link href={`/pages/ItemDisplay/${item.id}`}>{item.item}</Link>
-											
+											<Link href={`/pages/ItemDisplay/${item.id}`}>
+												{item.item}
+											</Link>
 										</li>
 									))}
 								</ul>

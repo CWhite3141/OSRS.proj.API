@@ -25,6 +25,20 @@ builder.Services.AddHttpClient("OSRS_GE", c =>
 builder.Services.AddScoped<IOSRSGeRepository, OSRSGeRepository>();
 builder.Services.AddScoped<IOSRSGeService, OSRSGeService>();
 
+//
+//
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactDev",
+        builder => builder.WithOrigins("http://localhost:3000")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod());
+});
+//
+//
+//
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -34,6 +48,17 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//
+//
+//
+app.UseRouting();
+
+// Apply CORS middleware
+app.UseCors("AllowReactDev");
+//
+//
+//
 
 app.UseAuthorization();
 
