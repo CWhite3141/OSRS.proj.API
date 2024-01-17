@@ -24,14 +24,6 @@ const fetchItem = (search) => {
     .then((response) => {
       console.log(response.data);
       return response.data;
-			// return an array of objects
-			/*
-			[
-				{
-					
-				},
-			]
-			*/
     })
     .catch((error) => {
       console.error(error);

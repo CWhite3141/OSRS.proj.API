@@ -1,9 +1,26 @@
+'use client'
 import React from "react";
-import { ItemProvider } from "@/app/contexts/ItemContext";
+import { useItemContext } from "@/app/contexts/ItemContext";
+
+
 
 const Results = () => {
-	const itemData = ItemProvider; // Destructure itemData from the context
-  console.log(itemData)
+	const { itemData, isLoading } = useItemContext();
+
+  if (isLoading) {
+    return <h2>Loading...</h2>;
+  } else if (itemData) {
+    return (
+      <div>
+        <h2>Welcome to the Results Page!!</h2>
+        {/* Render your itemData here */}
+      </div>
+    );
+  }
+
+  // Handle the case when itemData is null (optional)
+  return <h2>No data available</h2>;
+  
 };
 
 export default Results;

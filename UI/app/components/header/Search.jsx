@@ -10,20 +10,23 @@ const Search = () => {
 		item: "",
 		page: 0,
 	});
+
 	const handleInput = (event) => {
 		setSearch({
 			...search,
 			[event.target.name]: event.target.value,
 		});
 	};
-	const { updateItemData } = useItemContext();
+	const { updateItemData, isLoading } = useItemContext();
+
 	const router = useRouter();
+
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		router.push("/pages/SearchResults/");
 		try {
-			const itemObjectArray = await fetchItem(search);
-			updateItemData(itemObjectArray);
-			router.push("/pages/SearchResults/");
+			const response = await fetchItem(search);
+			updateItemData(response);
 		} catch (error) {
 			console.error(`Error fetching item data: ${error.message}`);
 		}
