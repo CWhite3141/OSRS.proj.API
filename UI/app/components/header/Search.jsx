@@ -1,34 +1,44 @@
 "use client";
 import React, { useState } from "react";
-import fetchItem from "@/app/api/fetchItem";
-import { useItemContext } from "@/app/contexts/ItemContext";
 import { useRouter } from "next/navigation";
+import { useItemQueryContext } from "@/app/contexts/QueryContext";
 
 const Search = () => {
+	const { itemQuery, updateItemQuery } = useItemQueryContext();
+	const router = useRouter();
 	const [search, setSearch] = useState({
 		category: 1,
-		item: "",
-		page: 0,
+		alpha: "a",
+		page: 1,
 	});
 
 	const handleInput = (event) => {
-		setSearch({
-			...search,
-			[event.target.name]: event.target.value,
-		});
-	};
-	const { updateItemData, isLoading } = useItemContext();
+		const { name, value } = event.target;
 
-	const router = useRouter();
+		setSearch((prevSearch) => ({
+			...prevSearch,
+			category: prevSearch.category,
+			alpha: value.split(0,1),
+			page: prevSearch.page,
+		}));
+
+		updateItemQuery({ ...search, [name]: value });
+	};
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		router.push("/pages/SearchResults/");
-		try {
-			const response = await fetchItem(search);
-			updateItemData(response);
-		} catch (error) {
-			console.error(`Error fetching item data: ${error.message}`);
+		console.log(itemQuery)
+		updateItemQuery(search);
+		if (itemQuery === "" || itemQuery == null) {
+			alert("Please enter a value");
+			return;
+		}
+		if (itemQuery > "" || itemQuery != null) {
+			try {
+				router.push("/pages/SearchResults/");
+			} catch (error) {
+				console.error(`Error fetching item data: ${error.message}`);
+			}
 		}
 	};
 
@@ -41,8 +51,8 @@ const Search = () => {
 					className="text-Maroon font-semibold w-full ps-2 py-1 h-10 rounded-l-md shadow-md border-r-2 outline-none"
 					type="text"
 					onChange={handleInput}
-					name="item"
-					id="item"
+					name="search"
+					id="search"
 					placeholder="Enter Item Name..."
 				/>
 

@@ -1,10 +1,17 @@
-import Results from "@/app/components/searchResults/Results";
-import React from "react";
+"use client";
+
+import { ItemQueryProvider } from "@/app/contexts/QueryContext";
+import { ItemResults } from "./ItemResults";
+import ResultsPage from "./ResultsPage";
 
 const SearchResults = () => {
 	return (
 		<div>
-			<Results />
+			<ItemQueryProvider>
+				<ResultsPage>
+					<ItemResults />
+				</ResultsPage>
+			</ItemQueryProvider>
 		</div>
 	);
 };
