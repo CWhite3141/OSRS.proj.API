@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Nav from "@/components/header/Nav";
-import Footer from "@/components/footer/Footer";
-// import SearchContext
+import Nav from "@/Components/Header/Nav";
+import Footer from "@/Components/Footer/Footer";
+import { SearchContextProvider } from "@/Context/SearchContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,11 +21,11 @@ export default function RootLayout({
 		<html lang="en">
 			<body
 				className={`${inter.className} flex flex-col w-full h-full`}>
-				{/* <SearchContext.Provider> */}
+				<SearchContextProvider>
 					<Nav />
 					<main className="container mx-auto">{children}</main>
 					<Footer />
-				{/* </SearchContext.Provider> */}
+				</SearchContextProvider>
 			</body>
 		</html>
 	);

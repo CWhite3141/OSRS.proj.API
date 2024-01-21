@@ -1,7 +1,11 @@
 "use client";
 import React, { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ISearchQuery } from "@/types";
+import { ISearchQuery } from "@/Types";
+import {
+	SearchContextValue,
+	useSearchContext,
+} from "@/Context/SearchContext";
 
 const Search = () => {
 	// const router = useRouter();
@@ -20,11 +24,19 @@ const Search = () => {
 			alpha: inputValue.charAt(0),
 		}));
 	};
+	// Load the setSearchState method
+	const { setSearchState } =
+		useSearchContext() as SearchContextValue;
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(search);
-		// updateItemQuery(search);
+		// console.log(search);
+		setSearchState((prev) => ({
+			...prev,
+			category: search.category,
+			alpha: search.alpha,
+			page: search.page,
+		}));
 	};
 
 	return (

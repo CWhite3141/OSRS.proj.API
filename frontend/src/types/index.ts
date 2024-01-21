@@ -7,3 +7,4 @@ export interface ISearch {
 export interface ISearchQuery extends ISearch {
 	search: string | null;
 }
+
