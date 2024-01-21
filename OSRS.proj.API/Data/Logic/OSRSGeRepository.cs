@@ -31,58 +31,71 @@ namespace OSRS.proj.API.Data.Logic
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<CategoryResponse>();
         }
-        public async Task <List<ItemsResponse>> GetItems(ItemsRequest request)
+        public async Task<List<ItemsResponse>> GetItems(ItemsRequest request)
         {
-            int currentPage;
-            if (request.Page == null)
-            {
-                currentPage = 1;
-            }
-            else
-            {
-                currentPage = request.Page.Value;
-            }
+
+            HttpClient client = _httpClientFactory.CreateClient("OSRS_GE");
+            string baseUrl = _configuration["OSRS_GE:AppSettings:BaseUrl"];
+            string endpoint = _configuration["OSRS_GE:OSRS_Endpoints:Items"];
+            List<ItemsResponse> allItems = new List<ItemsResponse>();
+            
             string cacheKey = $"Items_{request.Category}_{request.Alpha}_{request.Page}";
             if (_memoryCache.TryGetValue(cacheKey, out List<ItemsResponse> cachedItems))
             {
                 return cachedItems;
             }
 
-            HttpClient client = _httpClientFactory.CreateClient("OSRS_GE");
-            string baseUrl = _configuration["OSRS_GE:AppSettings:BaseUrl"];
-            string endpoint = _configuration["OSRS_GE:OSRS_Endpoints:Items"];
-            List<ItemsResponse> allItems = new List<ItemsResponse>(); 
-
-            while (true)
+            int currentPage;
+            if (request.Page == null)
             {
-                string url = $"{baseUrl}{endpoint}?category={request.Category}&alpha={request.Alpha}&page={currentPage}";
-                var response = await client.GetAsync(url);
-
-                if (response.IsSuccessStatusCode)
+                currentPage = 1;
+                while (true)
                 {
-                    ItemsResponse itemResponse = await response.Content.ReadFromJsonAsync<ItemsResponse>();
+                    string url = $"{baseUrl}{endpoint}?category={request.Category}&alpha={request.Alpha}&page={currentPage}";
+                    var response = await client.GetAsync(url);
 
-                    if (itemResponse.Items.Count > 0)
+                    if (response.IsSuccessStatusCode)
                     {
-                        allItems.Add(itemResponse);
-                        currentPage++;
+                        ItemsResponse itemResponse = await response.Content.ReadFromJsonAsync<ItemsResponse>();
+
+                        if (itemResponse.Items.Count > 0)
+                        {
+                            allItems.Add(itemResponse);
+                            currentPage++;
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                     else
                     {
+                        Console.WriteLine($"Error: {response.StatusCode}");
+                        response.EnsureSuccessStatusCode();
                         break;
                     }
+                    var cacheEntryOptions = new MemoryCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
+                    };
+                    _memoryCache.Set(cacheKey, allItems, cacheEntryOptions);
+                }
+            }
+            else
+            {
+                currentPage = request.Page.Value;
+                string url = $"{baseUrl}{endpoint}?category={request.Category}&alpha={request.Alpha}&page={currentPage}";
+                var response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    ItemsResponse itemResponse = await response.Content.ReadFromJsonAsync<ItemsResponse>();
+                    allItems.Add(itemResponse);
                 }
                 else
                 {
                     Console.WriteLine($"Error: {response.StatusCode}");
                     response.EnsureSuccessStatusCode();
-                    break;
                 }
-                var cacheEntryOptions = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
-                };
-                _memoryCache.Set(cacheKey, allItems, cacheEntryOptions);
             }
             return allItems;
         }
