@@ -1,25 +1,51 @@
 "use client";
-import { getItems } from "@/API/OSRS";
+
+import React, { useEffect, useState } from "react";
+import { IPriceInfo, ITrendingInfo, getItems } from "@/API/OSRS";
 import {
 	SearchContextValue,
 	useSearchContext,
 } from "@/Context/SearchContext";
-import { useEffect } from "react";
 
 export default function Home() {
-	const { searchState } = useSearchContext() as SearchContextValue;
+	const { searchState, setSearchState } =
+		useSearchContext() as SearchContextValue;
+	const [pageNumber, setPageNumber] = useState(1);
+
+	const handleClick = (action: string) => {
+		setPageNumber((pageNumber) =>
+			action === "next" ? pageNumber + 1 : pageNumber - 1
+		);
+	};
+
 	useEffect(() => {
-		console.log(searchState)
+		console.log(searchState);
 		getItems(searchState);
 	}, [searchState]);
 
-	// const page: number = 0
-	// const pages: [{}] = 
-	// const elements = 
+	useEffect(() => {
+		setSearchState((prev) => ({
+			...prev,
+			page: pageNumber,
+		}));
+	}, [pageNumber, setSearchState]);
 
 	return (
-		<div>
-			<h2>Hello world!</h2>
+		<div className="">
+			<div
+				id="pageNumberButtons"
+				className="flex justify-around w-full">
+				<button
+					className="bg-Brown rounded-md px-2 py-1 mt-5"
+					onClick={() => handleClick("prev")}>
+					Prev
+				</button>
+				<button
+					className="bg-Brown rounded-md px-2 py-1 mt-5"
+					onClick={() => handleClick("next")}>
+					Next
+				</button>
+			</div>
 		</div>
 	);
 }

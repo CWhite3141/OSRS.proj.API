@@ -1,18 +1,20 @@
 "use client";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ISearchQuery } from "@/Types";
 import {
 	SearchContextValue,
+	SearchInputContextValue,
 	useSearchContext,
+	useSearchInputContext,
 } from "@/Context/SearchContext";
 
 const Search = () => {
 	// const router = useRouter();
 	const [search, setSearch] = useState<ISearchQuery>({
-		search: null,
+		search: "",
 		category: 1,
-		alpha: null,
+		alpha: "",
 		page: 1,
 	});
 
@@ -24,13 +26,23 @@ const Search = () => {
 			alpha: inputValue.charAt(0),
 		}));
 	};
-	// Load the setSearchState method
+
+	// Load the setSearchInputState and searchInputState from SearchContext
+	const { searchInputState, setSearchInputState } =
+		useSearchInputContext() as SearchInputContextValue;
+	useEffect(() => {
+		setSearchInputState(search);
+		console.log(searchInputState);
+	}, [search]);
+
+	// Load the setSearchState from SearchContext
 	const { setSearchState } =
 		useSearchContext() as SearchContextValue;
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		// console.log(search);
+		console.log(searchInputState);
 		setSearchState((prev) => ({
 			...prev,
 			category: search.category,
@@ -50,7 +62,7 @@ const Search = () => {
 					onChange={handleInput}
 					name="search"
 					id="search"
-					placeholder="Enter Item Name..."
+					placeholder="Type a letter A - Z . . ."
 				/>
 
 				<button

@@ -23,7 +23,7 @@ export default function RootLayout({
 				className={`${inter.className} flex flex-col w-full h-full`}>
 				<SearchContextProvider>
 					<Nav />
-					<main className="container mx-auto">{children}</main>
+					<main className="container h-screen mx-auto">{children}</main>
 					<Footer />
 				</SearchContextProvider>
 			</body>
