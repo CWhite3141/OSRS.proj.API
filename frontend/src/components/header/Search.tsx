@@ -1,6 +1,5 @@
 "use client";
 import React, { FormEvent, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { ISearchQuery } from "@/Types";
 import {
 	SearchContextValue,
@@ -8,6 +7,7 @@ import {
 	useSearchContext,
 	useSearchInputContext,
 } from "@/Context/SearchContext";
+import { useLoadingContext } from "@/Context/LoadingContext";
 
 const Search = () => {
 	// const router = useRouter();
@@ -15,7 +15,7 @@ const Search = () => {
 		search: "",
 		category: 1,
 		alpha: "",
-		page: 1,
+		page: null,
 	});
 
 	const handleInput = (e: FormEvent<HTMLInputElement>) => {
@@ -39,8 +39,11 @@ const Search = () => {
 	const { setSearchState } =
 		useSearchContext() as SearchContextValue;
 
+	const { loadingState, setLoadingState } = useLoadingContext();
+
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		setLoadingState(true);
 		// console.log(search);
 		console.log(searchInputState);
 		setSearchState((prev) => ({

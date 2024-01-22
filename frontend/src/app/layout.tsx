@@ -4,6 +4,7 @@ import "./globals.css";
 import Nav from "@/Components/Header/Nav";
 import Footer from "@/Components/Footer/Footer";
 import { SearchContextProvider } from "@/Context/SearchContext";
+import { LoadingContextProvider } from "@/Context/LoadingContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,9 +23,13 @@ export default function RootLayout({
 			<body
 				className={`${inter.className} flex flex-col w-full h-full`}>
 				<SearchContextProvider>
-					<Nav />
-					<main className="container h-screen mx-auto">{children}</main>
-					<Footer />
+					<LoadingContextProvider>
+						<Nav />
+						<main className="container h-full mx-auto">
+							{children}
+						</main>
+						<Footer />
+					</LoadingContextProvider>
 				</SearchContextProvider>
 			</body>
 		</html>
