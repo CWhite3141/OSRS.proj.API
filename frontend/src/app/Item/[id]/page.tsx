@@ -38,7 +38,9 @@ export default function Page() {
 		<div className="w-full min-h-screen">
 			{itemDetails ? (
 				// Render your items here using the 'itemDetails' state
-				<div id="itemsList">
+				<div
+					id="itemsList"
+					className="">
 					<div key={itemDetails.item.id}>
 						<h2>{itemDetails.item.name}</h2>
 						{itemDetails.item.icon ? (
