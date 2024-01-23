@@ -30,13 +30,13 @@ p {
 
 /* TREND COLOR CLASSES */
 .positive {
-	@apply text-Green;
+	@apply text-DarkGreen;
 }
 .negative {
-	@apply text-Red;
+	@apply text-DarkRed;
 }
 .neutral {
-	@apply text-Brown;
+	@apply text-Black;
 }
 
 /* INPUTS */
@@ -46,7 +46,15 @@ p {
 }
 
 /* BUTTONS */
+.button {
+	@apply  rounded-md px-2 py-1 mt-5 text-Tan;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+	/* border-radius: 5px; */
+	box-shadow: 0.5px 0.5px 2px black;
+}
 .search-button {
+	@apply  text-Tan;
 	border-right: 1px solid black;
 	border-bottom: 1px solid black;
 	/* border-radius: 5px; */

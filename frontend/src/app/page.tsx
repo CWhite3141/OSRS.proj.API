@@ -23,6 +23,8 @@ export default function Home() {
 		useSearchContext() as SearchContextValue;
 	// pageNumber is the index of the items object array of items pages
 	const [pageNumber, setPageNumber] = useState<number>(0);
+	// Store the number of pages/ indexes in the response object array
+	const [pages, setPages] = useState<number>(0);
 	// Data from the fetchItems return
 	const [items, setItems] = useState<IItemsResponse | null>(null);
 
@@ -37,6 +39,7 @@ export default function Home() {
 			try {
 				const response = await getItems(searchState);
 				setItems(response);
+				// console.log(Object.keys(response).length)
 			} catch (error) {
 				console.log(`Error fetching items: ${error}`);
 				// Handle the error if needed
@@ -56,10 +59,14 @@ export default function Home() {
 
 	useEffect(() => {
 		console.log(items);
+		if (items) {
+			console.log(Object.keys(items).length - 1);
+			setPages(Object.keys(items).length - 1);
+		}
 	}, [items]);
 
 	return (
-		<div className="min-h-screen">
+		<div className="container">
 			<div>
 				<h1>OSRS Grand Exchange Price Service</h1>
 				<p>
@@ -84,43 +91,66 @@ export default function Home() {
 								<div
 									className="card hover:bg-Maroon my-5"
 									style={{ height: "200px", width: "350px" }}>
-									<h3>{item.name}{item.members ? (
-										<span className="members">&nbsp;(m)</span>
-									) : (
-										null
-									)}</h3>
-									{item.icon ? (
-										<Image
-											src={item.icon}
-											alt={
-												item.description ||
-												"No description available"
-											}
-											width={100}
-											height={100}
-											className="mx-auto"
-										/>
-									) : (
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											width="50"
-											height="50"
-											viewBox="0 0 50 50">
-											<rect
-												width="100%"
-												height="100%"
-												fill="#ccc"
+									<h3>
+										{item.name}
+										<span
+											className={
+												JSON.parse(item.members)
+													? "members"
+													: "hidden"
+											}>
+											&nbsp;(m)
+										</span>
+									</h3>
+									<div id="iconAndDetails" className="flex">
+										{item.icon ? (
+											<Image
+												src={item.icon}
+												alt={
+													item.description ||
+													"No description available"
+												}
+												width={100}
+												height={100}
+												className="mx-auto"
 											/>
-											<text
-												x="50%"
-												y="50%"
-												fill="#000"
-												textAnchor="middle"
-												alignmentBaseline="middle">
-												No image
-											</text>
-										</svg>
-									)}
+										) : (
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												width="50"
+												height="50"
+												viewBox="0 0 50 50">
+												<rect
+													width="100%"
+													height="100%"
+													fill="#ccc"
+												/>
+												<text
+													x="50%"
+													y="50%"
+													fill="#000"
+													textAnchor="middle"
+													alignmentBaseline="middle">
+													No image
+												</text>
+											</svg>
+										)}
+										<div id="itemDetails" className="flex flex-col">
+										<p>
+								Current Price:&nbsp;
+								<span
+									className={`${
+										item.today.trend === "positive"
+											? "positive"
+											: item.today.trend === "negative"
+											? "negative"
+											: "neutral"
+									}`}>
+									{item.current.price}
+								</span>
+							</p>
+										</div>
+									</div>
 								</div>
 							</Link>
 						))}
@@ -129,12 +159,16 @@ export default function Home() {
 						id="pageNumberButtons"
 						className="flex justify-around w-full">
 						<button
-							className="bg-Brown rounded-md px-2 py-1 mt-5"
+							className={`bg-Maroon hover:bg-Brown button ${
+								pageNumber === 0 ? "hidden" : ""
+							}`}
 							onClick={() => handleClick("prev")}>
 							Prev
 						</button>
 						<button
-							className="bg-Brown rounded-md px-2 py-1 mt-5"
+							className={`bg-Maroon hover:bg-Brown button ${
+								pageNumber === pages ? "hidden" : ""
+							}`}
 							onClick={() => handleClick("next")}>
 							Next
 						</button>

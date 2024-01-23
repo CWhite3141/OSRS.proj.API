@@ -21,11 +21,11 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`${inter.className} flex flex-col w-full h-full`}>
+				className={`${inter.className} flex flex-col w-full min-h-screen`}>
 				<SearchContextProvider>
 					<LoadingContextProvider>
 						<Nav />
-						<main className="container h-full mx-auto">
+						<main className="container flex-grow w-full mx-auto">
 							{children}
 						</main>
 						<Footer />

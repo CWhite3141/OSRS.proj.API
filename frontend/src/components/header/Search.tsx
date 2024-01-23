@@ -8,9 +8,10 @@ import {
 	useSearchInputContext,
 } from "@/Context/SearchContext";
 import { useLoadingContext } from "@/Context/LoadingContext";
+import { useRouter } from "next/navigation";
 
 const Search = () => {
-	// const router = useRouter();
+	const router = useRouter();
 	const [search, setSearch] = useState<ISearchQuery>({
 		search: "",
 		category: 1,
@@ -19,12 +20,17 @@ const Search = () => {
 	});
 
 	const handleInput = (e: FormEvent<HTMLInputElement>) => {
-		const inputValue = e.currentTarget.value;
-		setSearch((prev) => ({
-			...prev,
-			search: inputValue,
-			alpha: inputValue.charAt(0),
-		}));
+		let inputValue = e.currentTarget.value;
+
+		// validate entry is string, then setSearch(entry)
+		if (typeof inputValue === "string") {
+			inputValue = inputValue.toLowerCase();
+			setSearch((prev) => ({
+				...prev,
+				search: inputValue,
+				alpha: inputValue.charAt(0),
+			}));
+		}
 	};
 
 	// Load the setSearchInputState and searchInputState from SearchContext
@@ -52,6 +58,7 @@ const Search = () => {
 			alpha: search.alpha,
 			page: search.page,
 		}));
+		router.push("/");
 	};
 
 	return (
@@ -69,7 +76,7 @@ const Search = () => {
 				/>
 
 				<button
-					className="search-button bg-Maroon hover:bg-Brown first-line: h-10 px-2 py-1 rounded-r-md  text-black font-bold"
+					className="search-button bg-Maroon hover:bg-Brown first-line: h-10 px-2 py-1 rounded-r-md font-bold"
 					style={{ fontVariant: "small-caps" }}>
 					Search
 				</button>

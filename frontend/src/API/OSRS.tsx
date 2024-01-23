@@ -17,7 +17,8 @@ export interface IPriceInfo {
 
 export interface IItemsResponse {
 	total: number;
-	items: [];
+	items: IItem[];
+	[key: number]: any;
 }
 
 export interface IItem {
@@ -32,7 +33,7 @@ export interface IItem {
 	day90: ITrendingInfo;
 	current: IPriceInfo;
 	today: IPriceInfo;
-	members: boolean | null;
+	members: string;
 }
 
 export interface IItemDetails {
