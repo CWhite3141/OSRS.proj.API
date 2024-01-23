@@ -1,5 +1,10 @@
 "use client";
-import React, { FormEvent, useEffect, useState } from "react";
+import React, {
+	FormEvent,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import { ISearchQuery } from "@/Types";
 import {
 	SearchContextValue,
@@ -12,6 +17,7 @@ import { useRouter } from "next/navigation";
 
 const Search = () => {
 	const router = useRouter();
+	const formRef = useRef<HTMLFormElement>(null);
 	const [search, setSearch] = useState<ISearchQuery>({
 		search: "",
 		category: 1,
@@ -58,12 +64,17 @@ const Search = () => {
 			alpha: search.alpha,
 			page: search.page,
 		}));
+
+		if (formRef.current) {
+			formRef.current.reset();
+		}
 		router.push("/");
 	};
 
 	return (
 		<div>
 			<form
+				ref={formRef}
 				onSubmit={handleSubmit}
 				className="relative flex top-1/2 left-1/2 translate-y-2/3 -translate-x-1/2 w-1/3">
 				<input //prettier-ignore
