@@ -21,7 +21,7 @@ const Home = () => {
 						fillRule="evenodd">
 						<g
 							transform="translate(-381.000000, -720.000000)"
-							className={hovered ? `fill-Brown` : `fill-Maroon`}>
+							className={hovered ? `fill-Maroon` : `fill-Black`}>
 							<g
 								id="icons"
 								transform="translate(56.000000, 160.000000)">

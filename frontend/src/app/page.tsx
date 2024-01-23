@@ -59,7 +59,7 @@ export default function Home() {
 	}, [items]);
 
 	return (
-		<div className="mt-5 min-h-screen">
+		<div className="min-h-screen">
 			<div>
 				<h1>OSRS Grand Exchange Price Service</h1>
 				<p>
@@ -76,14 +76,19 @@ export default function Home() {
 				<div
 					id="itemsList"
 					className="flex flex-col">
-					<ul className="flex flex-wrap justify-around">
+					<div className="flex flex-wrap justify-evenly">
 						{items[pageNumber]?.items?.map((item: IItem) => (
 							<Link
-								className="w-1/3 border mx-2 my-6"
 								href={`/Item/${item.id}`}
 								key={item.id}>
-								<li>
-									<h2>{item.name}</h2>
+								<div
+									className="card hover:bg-Maroon my-5"
+									style={{ height: "200px", width: "350px" }}>
+									<h3>{item.name}{item.members ? (
+										<span className="members">&nbsp;(m)</span>
+									) : (
+										null
+									)}</h3>
 									{item.icon ? (
 										<Image
 											src={item.icon}
@@ -116,10 +121,10 @@ export default function Home() {
 											</text>
 										</svg>
 									)}
-								</li>
+								</div>
 							</Link>
 						))}
-					</ul>
+					</div>
 					<div
 						id="pageNumberButtons"
 						className="flex justify-around w-full">

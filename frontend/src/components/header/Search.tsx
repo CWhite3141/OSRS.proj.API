@@ -60,7 +60,7 @@ const Search = () => {
 				onSubmit={handleSubmit}
 				className="relative flex top-1/2 left-1/2 translate-y-2/3 -translate-x-1/2 w-1/3">
 				<input //prettier-ignore
-					className="text-Maroon font-semibold w-full ps-2 py-1 h-10 rounded-l-md shadow-md border-r-2 outline-none"
+					className="search-input text-Maroon font-semibold w-full ps-2 py-1 h-10 rounded-l-md outline-none"
 					type="text"
 					onChange={handleInput}
 					name="search"
@@ -69,7 +69,7 @@ const Search = () => {
 				/>
 
 				<button
-					className="bg-Maroon hover:bg-Brown first-line: h-10 px-2 py-1 rounded-r-md shadow-md "
+					className="search-button bg-Maroon hover:bg-Brown first-line: h-10 px-2 py-1 rounded-r-md  text-black font-bold"
 					style={{ fontVariant: "small-caps" }}>
 					Search
 				</button>
