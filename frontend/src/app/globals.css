@@ -15,13 +15,13 @@ h6 {
 	@apply font-bold my-2 text-Black;
 }
 h1 {
-	@apply text-4xl
+	@apply text-4xl;
 }
 h2 {
-	@apply text-2xl
+	@apply text-2xl;
 }
 h3 {
-	@apply text-xl
+	@apply text-xl;
 }
 
 p {
@@ -47,14 +47,14 @@ p {
 
 /* BUTTONS */
 .button {
-	@apply  rounded-md px-2 py-1 mt-5 text-Tan;
+	@apply rounded-md px-2 py-1 mt-5 text-Tan;
 	border-right: 1px solid black;
 	border-bottom: 1px solid black;
 	/* border-radius: 5px; */
 	box-shadow: 0.5px 0.5px 2px black;
 }
 .search-button {
-	@apply  text-Tan;
+	@apply text-Tan;
 	border-right: 1px solid black;
 	border-bottom: 1px solid black;
 	/* border-radius: 5px; */
@@ -73,10 +73,102 @@ p {
 	@apply text-Gold text-sm;
 }
 
+/* LOADING ANIMATION */
+.circular-loader {
+	-webkit-animation: rotate 2s linear infinite;
+	animation: rotate 2s linear infinite;
+	height: 100%;
+	-webkit-transform-origin: center center;
+	-ms-transform-origin: center center;
+	transform-origin: center center;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: auto;
+}
 
+.loader-path {
+	stroke-dasharray: 150, 200;
+	stroke-dashoffset: -10;
+	-webkit-animation: dash 1.5s ease-in-out infinite,
+		color 6s ease-in-out infinite;
+	animation: dash 1.5s ease-in-out infinite,
+		color 6s ease-in-out infinite;
+	stroke-linecap: round;
+}
 
+@-webkit-keyframes rotate {
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
 
-
+@keyframes rotate {
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+@-webkit-keyframes dash {
+	0% {
+		stroke-dasharray: 1, 200;
+		stroke-dashoffset: 0;
+	}
+	50% {
+		stroke-dasharray: 89, 200;
+		stroke-dashoffset: -35;
+	}
+	100% {
+		stroke-dasharray: 89, 200;
+		stroke-dashoffset: -124;
+	}
+}
+@keyframes dash {
+	0% {
+		stroke-dasharray: 1, 200;
+		stroke-dashoffset: 0;
+	}
+	50% {
+		stroke-dasharray: 89, 200;
+		stroke-dashoffset: -35;
+	}
+	100% {
+		stroke-dasharray: 89, 200;
+		stroke-dashoffset: -124;
+	}
+}
+@-webkit-keyframes color {
+	0% {
+		@apply stroke-Maroon
+	}
+	40% {
+		@apply stroke-Maroon
+	}
+	66% {
+		@apply stroke-Maroon
+	}
+	80%,
+	90% {
+		@apply stroke-Maroon
+	}
+}
+@keyframes color {
+	0% {
+		@apply stroke-Maroon
+	}
+	40% {
+		@apply stroke-Maroon
+	}
+	66% {
+		@apply stroke-Maroon
+	}
+	80%,
+	90% {
+		@apply stroke-Maroon
+	}
+}
 
 /* BOOKMARKS */
 /* .bookmarks-closed {
@@ -105,7 +197,3 @@ p {
 	@apply text-Brown hover:text-Maroon font-semibold text-base
 	ps-1;
 } */
-
-
-
-
