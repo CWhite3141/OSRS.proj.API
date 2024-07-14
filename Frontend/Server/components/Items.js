@@ -26,7 +26,7 @@ class Items {
         try {
             const response = await axios.post(`https://localhost:5237/OSRSGe/GetCategoryInfo`, { category: 1 }, { httpsAgent: agent });
             const { data } = response;
-            console.log("Category Info:", data);
+            // console.log("Category Info:", data);
             if (res) {
                 return res.json(data);
             } else {
@@ -63,7 +63,7 @@ class Items {
                 return res.status(400).json({ error: "No category matches the first letter of the substring" });
             }
 
-            console.log(`Searching ${category.letter} for substring: ${substring}`); // Log the substring being processed
+            // console.log(`Searching ${category.letter} for substring: ${substring}`);
             const categoryMatches = [];
             const pages = Math.ceil(category.items / 12);
             let foundMatch = true;
@@ -75,7 +75,7 @@ class Items {
                         alpha: category.letter.toLowerCase(),
                         page: i,
                     }, { httpsAgent: agent });
-                    console.log(response.data[0].items);
+                    // console.log(response.data[0].items);
 
                     if (response.data && Array.isArray(response.data[0].items)) {
                         for (const item of response.data[0].items) {
