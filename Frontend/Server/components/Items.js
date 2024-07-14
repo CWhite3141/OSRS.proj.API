@@ -12,7 +12,7 @@ const agent = new https.Agent({
 class Items {
     constructor() {
         this.app = express();
-        this.app.use(express.json()); // Ensure your app parses JSON bodies
+        this.app.use(express.json());
         this.routes();
     }
 
@@ -26,14 +26,14 @@ class Items {
         try {
             const response = await axios.post(`https://localhost:5237/OSRSGe/GetCategoryInfo`, { category: 1 }, { httpsAgent: agent });
             const { data } = response;
-            console.log("Category Info:", data); // Add logging to debug
+            console.log("Category Info:", data);
             if (res) {
-                return res.json(data); // If res is provided, send JSON response
+                return res.json(data);
             } else {
-                return data; // Otherwise, return the data for internal use
+                return data;
             }
         } catch (error) {
-            console.error("Error fetching category info:", error.message); // Add error logging
+            console.error("Error fetching category info:", error.message);
             if (res) {
                 return res.status(500).json({ error: error.message });
             } else {
@@ -58,7 +58,6 @@ class Items {
                 return res.status(400).json({ error: "Substring is required" });
             }
 
-            // Ensure the category is selected based on the uppercase letter of the substring
             const category = categoryData.alpha.slice(1).find(c => c.letter.toUpperCase() === substring[0].toUpperCase());
             if (!category) {
                 return res.status(400).json({ error: "No category matches the first letter of the substring" });
@@ -73,10 +72,10 @@ class Items {
                 try {
                     const response = await axios.post(`https://localhost:5237/OSRSGe/GetItems`, {
                         category: 1,
-                        alpha: category.letter.toLowerCase(), // Convert the letter to lowercase
+                        alpha: category.letter.toLowerCase(),
                         page: i,
                     }, { httpsAgent: agent });
-                    console.log(response.data[0].items); // Log the items for debugging
+                    console.log(response.data[0].items);
 
                     if (response.data && Array.isArray(response.data[0].items)) {
                         for (const item of response.data[0].items) {
@@ -91,12 +90,12 @@ class Items {
                 } catch (err) {
                     console.error(`Error fetching items for category ${category.letter}, page ${i}:`, err.message);
                 }
-                await this.sleep(100); // Add delay between searches
+                await this.sleep(100);
             }
 
-            res.json(categoryMatches); // Send the matches as a response
+            res.json(categoryMatches);
         } catch (error) {
-            console.error("Error fetching substring matches:", error.message); // Add error logging
+            console.error("Error fetching substring matches:", error.message);
             res.status(500).json({ error: error.message });
         }
     }
@@ -111,9 +110,9 @@ class Items {
             const response = await axios.post(`https://localhost:5237/OSRSGe/GetItemDetails`, { item }, { httpsAgent: agent });
             const { data } = response;
 
-            return res.json(data); // Send JSON response
+            return res.json(data);
         } catch (error) {
-            console.error("Error fetching item info:", error.message); // Add error logging
+            console.error("Error fetching item info:", error.message);
             return res.status(500).json({ error: error.message });
         }
     }
