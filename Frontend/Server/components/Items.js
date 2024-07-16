@@ -42,34 +42,34 @@ class Items {
         }
     }
 
-    async sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
+    // async sleep(ms) {
+    //     return new Promise(resolve => setTimeout(resolve, ms));
+    // }
 
     async getSubstringMatches(req, res) {
         try {
             const categoryData = await this.getCategoryInfo();
-            if (!categoryData || !Array.isArray(categoryData.alpha)) {
+            if (!categoryData || !Array.isArray(categoryData.alpha)) { // No category data or it's not an array
                 throw new Error("Invalid category data");
             }
 
-            const substring = req.body.substring;
-            if (!substring) {
+            const substring = req.body.substring.trim();
+            if (!substring) { // No substring provided
                 return res.status(400).json({ error: "Substring is required" });
             }
 
             const category = categoryData.alpha.slice(1).find(c => c.letter.toUpperCase() === substring[0].toUpperCase());
-            if (!category) {
-                return res.status(400).json({ error: "No category matches the first letter of the substring" });
-            }
-
-            // console.log(`Searching ${category.letter} for substring: ${substring}`);
             const categoryMatches = [];
             const pages = Math.ceil(category.items / 12);
-            let foundMatch = true;
-
-            for (let i = 1; i <= pages && foundMatch; i++) {
+            let foundFirstMatch = false;
+            let foundLastMatch = false;
+            for (let i = 1; i <= pages; i++) { // Loop through each page of items and find the matches
+                if (foundLastMatch) { // Found the last match, let's dip!
+                    console.log("Found the last match, let's dip!")
+                    break;
+                }
                 try {
+                    console.log(`Searching page ${i} of category ${category.letter} for substring ${substring}`);
                     const response = await axios.post(`https://localhost:5237/OSRSGe/GetItems`, {
                         category: 1,
                         alpha: category.letter.toLowerCase(),
@@ -79,18 +79,27 @@ class Items {
 
                     if (response.data && Array.isArray(response.data[0].items)) {
                         for (const item of response.data[0].items) {
-                            if (item.name.toLowerCase().includes(substring.toLowerCase())) {
+                            console.log(`Checking item ${item.name}`);
+                            if (item.name.toLowerCase().includes(substring.toLowerCase())) { // Item name contains the substring
                                 categoryMatches.push(item);
-                            } else {
-                                foundMatch = false;
-                                break;
+                                if (!foundFirstMatch) { // Found the first match
+                                    foundFirstMatch = true;
+                                    continue;
+                                }
+                            } else { // Item name does not contain the substring
+                                if (foundFirstMatch) { // Found the last match
+                                    foundLastMatch = true;
+                                    break
+                                } else { // Haven't found the first match yet
+                                    continue;
+                                }
                             }
                         }
                     }
                 } catch (err) {
                     console.error(`Error fetching items for category ${category.letter}, page ${i}:`, err.message);
                 }
-                await this.sleep(100);
+                // await this.sleep(100);
             }
 
             res.json(categoryMatches);
