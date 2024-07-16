@@ -101,7 +101,6 @@ class Items {
                 }
                 // await this.sleep(100);
             }
-
             res.json(categoryMatches);
         } catch (error) {
             console.error("Error fetching substring matches:", error.message);
