@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSRS.proj.API", "OSRS.proj.API\OSRS.proj.API.csproj", "{B0C78E9D-D110-4147-B8F1-5FF81F2DC78E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0C78E9D-D110-4147-B8F1-5FF81F2DC78E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0C78E9D-D110-4147-B8F1-5FF81F2DC78E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0C78E9D-D110-4147-B8F1-5FF81F2DC78E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0C78E9D-D110-4147-B8F1-5FF81F2DC78E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {09587BCF-006B-4975-8889-D1D6E4D7E357}
+	EndGlobalSection
+EndGlobal
