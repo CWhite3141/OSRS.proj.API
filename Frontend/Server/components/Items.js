@@ -46,6 +46,11 @@ class Items {
     //     return new Promise(resolve => setTimeout(resolve, ms));
     // }
 
+
+    // TODO: Implement binary search for faster results. Once the first match is found, search backwards until lastMatchBackwards = true, then go back to the first match and search forwards until lastMatchForwards = true. 
+
+    // TODO: Cache the category data so we don't have to fetch it every time.
+
     async getSubstringMatches(req, res) {
         try {
             const categoryData = await this.getCategoryInfo();
