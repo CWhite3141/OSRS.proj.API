@@ -1,15 +1,17 @@
 ### Get Substring Matches
 
 **Description:**
-Fetches items whose names *start* with the given substring. Is not case-sensitive and will trim the substring of leading/ trailing spaces.
+Fetches items whose names _start_ with the given substring. Is not case-sensitive and will trim the substring of leading/ trailing spaces.
 
 **Endpoint:**
-`POST /items`
+`POST api/ge/items`
 
 **Request Body:**
+
 - `substring` (required): The substring to search for.
 
 **Response:**
+
 - `200 OK`: Return a list of items that start with the substring.
 - `400 Bad Request`: If the substring was not provided.
 - `500 Internal Server Error`: If there is an error fetching the items.
@@ -18,7 +20,7 @@ Fetches items whose names *start* with the given substring. Is not case-sensitiv
 
 ```JSON
 
-POST /items HTTP/1.1
+POST api/ge/items HTTP/1.1
 Host: localhost:3000
 Content-Type: application/json
 
