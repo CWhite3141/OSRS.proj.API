@@ -10,6 +10,7 @@ function App() {
   const handleSearch = (e) => {
     e.preventDefault()
     console.log('searching...')
+    setResults([])
     setLoading(true)
     setItem(null)
     const substring = e.target[0].value
@@ -43,55 +44,77 @@ function App() {
       })
   }
 
+  const getClassName = (trend) => { // 'neutral', 'positive', 'negative' for item price trends.
+    return trend === 'neutral' ? 'trend-neutral' :
+      trend === 'positive' ? 'trend-positive' :
+        'trend-negative';
+  };
+
   return (
-    <div className='background'>
-      <div className='content-container'>
-        <div className='content'>
+    <div className='content'>
 
-          {/* Search Bar */}
-          <form id='search' onSubmit={handleSearch}>
-            <input
-              type="text"
-              placeholder='cabbage'
-            />
-            <button
-              type="submit"
-            >
-              Search
-            </button>
-          </form>
+      {/* Search Bar */}
+      <form className='search-bar' onSubmit={handleSearch}>
+        <input
+          type="text"
+          placeholder='cabbage'
+        />
+        <button
+          type="submit"
+        >
+          Search
+        </button>
+      </form>
 
-          {/* Loading */}
-          {loading && <p>Loading...</p>}
+      {/* Loading */}
+      {loading && <p className='loading'>Loading...</p>}
 
-          {/* Search Results */}
-          <div className='search-results'>
-            {results && results.map((result, index) => (
-              <div key={index} id={result.id} className='result' onClick={handleClick}>
-                <img src={result.icon} alt={result.name} />
-                <div>
-                  <h3>{result.name}</h3>
-                  <p>{result.description}</p>
-                </div>
-              </div>
-            ))}
+      {/* Search Results */}
+      <div className='search-results'>
+        {results && results.map((result, index) => (
+          <div key={index} id={result.id} className='result' onClick={handleClick}>
+            <img src={result.icon} alt={result.name} />
+            <div>
+              <h3>{result.name}</h3>
+              <p>{result.description}</p>
+            </div>
           </div>
-
-          {/* Item Details */}
-          <div>
-            {item && (
-              <div className='item-details'>
-                <img src={item.icon} alt={item.name} />
-                <div>
-                  <h3>{item.name}</h3>
-                  <p>{item.description}</p>
-                </div>
+        ))}
+        {item && (
+          <div className='item-details'>
+            <div className='flex justify-between'>
+              <div>
+                <h3 className='item-title'>{item.name}</h3>
+                <p className='item-description'>{item.description}</p>
               </div>
-            )}
+              <img className='item-icon' src={item.icon} alt={item.name} />
+            </div>
+            <table className='item-table'>
+              <thead>
+                <tr>
+                  <th>Current</th>
+                  <th>1 Month</th>
+                  <th>3 Month</th>
+                  <th>6 Month</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className={getClassName(item.current.trend)}>{item.current.price}</td>
+                  <td className={getClassName(item.day30.trend)}>{item.day30.change}</td>
+                  <td className={getClassName(item.day90.trend)}>{item.day90.change}</td>
+                  <td className={getClassName(item.day180.trend)}>{item.day180.change}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-
-        </div>
+        )}
       </div>
+
+      {/* Item Details */}
+
+
+
     </div>
   )
 }

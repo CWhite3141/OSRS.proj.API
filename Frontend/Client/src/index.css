@@ -22,9 +22,11 @@ body {
   min-width: 320px;
   min-height: 100vh;
   position: relative; /* Add this */
+
 }
 
-#background-image {
+body::before {
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -33,7 +35,7 @@ body {
   background-image: url('./assets/dark-brown-bricks.jpg');
   background-size: cover;
   opacity: 0.5;
-  z-index: -1; /* Ensure the background stays behind the content */
+  z-index: 0; /* Ensure the background stays behind the content */
 }
 
 #root {
