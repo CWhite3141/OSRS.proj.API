@@ -6,7 +6,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        customRed: '#FF0000',
+        bgPrimary: '#6f665d',
+        bgSecondary: '#6a6962',
       },
     },
   },
@@ -18,8 +19,8 @@ module.exports = {
 
 // osrs pallete
 
-// a4a39d
+// 6a6962
 // 6f665d
-// 4a3c29
+// a4865b brown
 // 2c2c25
 // 0d0f0a
