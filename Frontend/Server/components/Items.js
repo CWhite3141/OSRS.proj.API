@@ -110,7 +110,7 @@ class Items {
                 throw new Error("Invalid category data");
             }
 
-            const substring = req.body.substring.trim();
+            const substring = req.body.substring.trim().toLowerCase();
             if (!substring) {
                 return res.status(400).json({ error: "Substring is required" });
             }
@@ -183,7 +183,7 @@ class Items {
         }
 
         console.log(`Finished searching. Total matches found: ${substringMatches.length}`);
-        return substringMatches;
+        return substringMatches.sort((a, b) => a.name.localeCompare(b.name));
     }
 
     getPageMatches(items, substring) {
